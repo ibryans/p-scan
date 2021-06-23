@@ -1,9 +1,14 @@
 # lib que fornece uma conexão com os protocolos de rede da máquina
 import socket
+import sys
 
-host = 'bancocn.com'
+if (len(sys.argv) == 1):
+    print("Error: Falta 1 argumento, o alvo (host)");
+    exit(0)
 
-# lista de portas para teste
+host = sys.argv[1]
+
+# *** Lista de principais portas para teste ***
 # 21 = FTP (File Transfer Protocol)
 # 23 = Telnet Protocol (texto sem criptografia)
 # 80 = HTTP
@@ -13,7 +18,7 @@ ports = [21, 23, 80, 443, 8080]
 
 print('Conectando em ' + host + '\n')
 
-# retorna o resultado da conexão baseada no retorno de connect_ex()
+# Retorna o resultado da conexão baseada no retorno de connect_ex()
 def code_status(code):
     switch = {
         0: 'Open',
@@ -34,8 +39,6 @@ for port in ports:
 
     # Mudando o tempo da tentativa de se conectar a uma porta pelo host
     client.settimeout(0.2)
-    
+
     code = client.connect_ex((host, port))
     print(port, '\t|', code, '\t|', code_status(code))
-
-
